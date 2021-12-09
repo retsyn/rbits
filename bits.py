@@ -57,25 +57,12 @@ class Bitfield:
 
     def as_dec(self):
         '''
-        This algorithm treats the binary sequence as a decimal number (where 1010 is not ten, but 
-        instead one-thousand and ten) and we crunch that to it's new dec base.  We use as_string()
-        followed by recasting that string as an int as a shortcut to get started.
+        Decimal value quickly calcuated by casting the "as string" as an int, with a base of 2.
         '''
         
-        num = int(self._as_string())
-        dec = 0
-        base = 1
-        
-        temp = num
+        num = int(self._as_string(), 2)
 
-        while(temp):
-            last_digit = (temp % 10)
-            temp = int(temp / 10)
-            
-            dec += last_digit * base
-            base = base * 2
-            
-        return dec
+        return num
 
 
     def __getitem__(self, i):
@@ -100,3 +87,11 @@ class Bitfield:
         '''
 
         return self._as_string()
+
+
+    def __trunc__(self):
+        '''
+        Wrap .as_dec() whenever we cast this as an in, providing the decimal value.
+        '''
+
+        return self.as_dec()
